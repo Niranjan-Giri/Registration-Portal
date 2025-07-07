@@ -1,0 +1,227 @@
+NEPALESE STUDENTS ASSOCIATION (NSA)
+REGISTRATION PORTAL PROJECT PLAN
+
+PROJECT TITLE: NSA Registration Portal 
+PROJECT TYPE: Web Application (Registration System)
+Team Trilink: Development roles
+1. Brijesh Mandal
+    Frontend, Logic, and Backend
+- Responsible for implementing user interfaces and core system functionalities.
+- Develops frontend forms, dynamic views, and integrates backend logic.
+- Works closely with backend systems for data handling and user interactions.
+2. Niranjan Giri
+    Architecture, Debugging, and Testing
+- Focuses on database models, server-side operations, and API integration.
+- Leads system debugging, bug fixing, and test case implementation.
+- Ensures code stability and performance optimization.
+3. Bikal Ghimire
+    Planning, Testing, Documentation, and Coordination
+- Oversees project planning and ensures smooth development workflow.
+- Tests the system from usability and functionality perspectives.
+- Maintains comprehensive documentation and manages resources for the team.
+- Supports communication and consistency across all development efforts.
+VERSION: 1.0 (Initial Registration Portal)
+DATE: July 01, 2025
+1. PROJECT OVERVIEW
+- The NSA Registration Portal is a foundational step toward a full-scale web-based Membership Management System for the Nepalese Students Association at Mississippi State University. This portal will collect member registrations while allowing future expansions such as profile dashboards, event management, perks systems, admin control panels, file uploads, payment tracking, and even multi-school/app support.
+
+The current phase focuses only on the registration system, but is designed to be modular and expandable, supporting long-term development and scalability.
+2. USER FLOW AND STRUCTURE
+2.1 Entry Point
+- Website link shared across social platforms, current NSA website, email campaigns, and messaging groups.
+- Redirects users to the NSA Registration Portal home page.
+2.2 Landing Page
+Two buttons:
+a. Register in NSA (No login required)
+b. Admin Dashboard (Requires credentials)
+3. MEMBER REGISTRATION FLOW
+3.1 Step 1: Full Name
+Text input field to enter full legal name.
+3.2 Step 2: Select Category
+Radio selection:
+- Current MSU Student / Staff / Faculty
+- MSU Alumni
+- Others
+3.3 Step 3: Email Entry and Verification Logic
+3.3.1 Current MSU Student / Staff / Faculty:
+Input: MSU email (must end in @msstate.edu)
+Action: System sends verification code to email
+Result: Email verified automatically
+3.3.2 MSU Alumni:
+Choice: MSU email or personal email
+If MSU email: Verification code sent, automatic verification
+If personal email: Verification code sent to ensure correct email is used.; status = pending manual verification for NSA membership.
+3.3.3 Others:
+Any email allowed
+Verification code sent to ensure correct email is used.
+status = pending manual verification for NSA membership
+4. CONDITIONAL BRANCHING FOR FORM FIELDS
+
+4.1 If "Current MSU":
+Sub-choice: Student / Faculty / Staff
+For Students:
+Level: Undergraduate or Graduate
+Major / Department
+Expected Graduation Semester and Year
+For Faculty:
+Department
+Position / Title
+Years at MSU
+For Staff:
+Office / Department
+Role / Position
+Years at MSU
+4.2 If "Alumni":
+Year of Graduation
+Degree Earned
+Department / Major
+Current Country and State
+Current Profession
+Interest in supporting NSA (Checkbox)
+4.3 If "Others":
+Country and City
+Relationship with NSA (dropdown)
+Interest in involvement (checkboxes: volunteering, support, etc.)
+5. MEMBER TYPE SELECTION
+5.1 Type Options:
+Active Member (Paid) – For individuals who have completed registration and paid the applicable fee during the active enrollment period. 
+Passive Member (Free) – For individuals who are eligible but have not paid the membership fee. 
+Short explanatory tooltips or pop-ups will appear on hover or click to describe both member types clearly during the registration process.
+5.2 Membership Fee Logic:
+The portal dynamically displays the correct fee based on the date of registration and active enrollment periods as defined by NSA policy:
+Fall Enrollment (Aug 1 – Sep 30): $25 – Full-year membership
+Spring Enrollment (Jan 1 – Feb 28/29): $15 – Valid until July 31 of the same academic year
+Summer Enrollment (Post-Spring to July 31): $5 – Valid only until July 31
+If a user submits payment after a period’s enrollment deadline, the system defers them to the next active cycle automatically.
+5.3 Proof of Payment:
+Upload required for active members only
+Supported file types: JPG, PNG, or PDF
+Maximum file size: 2MB
+A summary screen will show the selected membership type and amount due before the upload step
+File upload (image or PDF)
+Instructions for payment (static or dynamically loaded)
+6. FINAL CONFIRMATION
+Summary of all entered data shown to the user
+Agreement checkboxes:
+I agree to comply with MSU policies.
+I agree to abide by NSA’s Constitution and Code of Conduct.
+Final Submit button.
+7. DATA CORRECTION AND RESUBMISSION POLICY
+To accommodate user mistakes during registration, the system will support a controlled self-edit mechanism followed by an admin-guided process if further corrections are needed.
+7.1 One-Time Self Edit (User-Initiated)
+After successful registration, users may re-access the registration form using the same verified email.
+The system will detect the existing entry and display a warning:
+"An existing registration was found for this email. You may edit and resubmit your information one time. This will overwrite your previous data."
+Upon resubmission, the previous record will be replaced and the system will mark the edit attempt as used.
+Timestamp of both the original and updated submissions will be stored.
+7.2 Admin-Guided Correction (After One-Time Edit)
+After using the one-time edit, any further correction must be requested via a form or contact mechanism.
+Users will be prompted to:
+- Explain the nature of the error
+- Provide the corrected data if possible
+Admins will have the ability to:
+- Manually unlock the entry for one more update
+- Edit the field(s) directly if necessary
+7.3 Security and Traceability
+All edits will be timestamped and logged.
+Admin dashboard will include a filter to identify resubmissions or manual unlocks.
+Optional future feature: maintain an audit trail showing original and updated values for admin review.
+8.  ADMINISTRATIVE DASHBOARD 
+The Admin Dashboard is a secure backend interface allowing authorized NSA team members to manage user registrations, perform verifications, review payment uploads, and export data. Designed for both immediate functionality and future scalability.
+8.1. Admin Access and Authentication
+Login Screen: Accessible via a protected /admin URL.
+Authentication: Requires admin email and password.
+Security Measures:
+Passwords hashed using industry standards (e.g., Django PBKDF2, bcrypt).
+Login attempt limit (to protect against brute-force attacks).
+CSRF protection on all forms.
+(Optional Future) Two-Factor Authentication (2FA).
+Admin User Creation:
+Super-admin account created manually via backend.
+Additional admin accounts only by super-admin approval in future releases.
+8.2. DASHBOARD FEATURES
+8.2.1 Registration Overview
+Table listing all registered users
+Fields shown: Name, Email, Category, Member Type, Status, Fee Status, Submission Timestamp
+Click on a record to expand full details
+8.2.2 Filtering & Search
+Filter registrants by:
+Verification status: Verified / Unverified 
+Category: Current MSU / Alumni / Others
+Member Type: Active / Passive
+Enrollment Period: Fall / Spring / Summer
+Search bar:
+By name (partial match)
+By email (exact or partial match, case-insensitive)
+8.2.3 Manual Verification Tools
+View email verification status
+View proof of payment (click to preview or download file)
+Toggle verification status manually (with confirmation prompt)
+Add internal notes for each user (e.g., “Payment confirmed”, “Awaiting follow-up”)
+8.3. Correction Management System
+Users have one-time self-edit option (handled on user side).
+Admins can:
+See edit history or if user has already used their edit.
+Manually unlock the form for a second correction upon user request.
+Edit user fields directly through a secure form interface (e.g., fix graduation year).
+8.4. EXPORTING & DATA ACCESS
+Export registration data:
+Full list or filtered views
+Format options: CSV and Excel
+Exports include:
+All fields
+Timestamps
+Verification status
+Useful for offline recordkeeping or sharing with executive boards
+8.5. Admin Roles and Permission
+One super-admin with full access and responsibilities
+Future Expansion:
+Role-Based Access Control (RBAC):
+Viewer – can see but not edit
+Verifier – can verify users and payment
+Editor – can modify records and unlock edits
+Super Admin – full privileges
+This allows distribution of responsibilities with minimal security risk
+9. TECHNICAL DESIGN
+9.1 Framework:
+Backend: 
+Frontend: 
+Database: 
+Hosting: 
+9.2 Models (Database Structure)
+User:
+full_name
+email
+category (student, alumni, other)
+msu_affiliation (student, faculty, staff)
+verification_status (auto_verified, pending, manual_verified)
+member_type (active, passive)
+semester_joined
+proof_of_payment
+timestamp
+additional fields (as per branching)
+10. SECURITY AND DATA INTEGRITY
+10.1 Email Verification
+Code expiry within 10 minutes
+Attempt limit to prevent abuse
+10.2 Input Validation
+Client-side + Server-side validation
+Sanitization of all inputs to prevent injection
+10.3 Secure File Uploads
+Restrict file types (JPG, PNG, PDF)
+File size limit (e.g., max 2MB)
+Store files outside public directories
+10.4 Server Security
+Hide SECRET_KEY in .env file
+Use HTTPS in deployment
+Enable CORS policy as needed
+10.5 Data Protection
+Encrypt passwords if used
+Protect admin access with rate limiting
+Ensure user emails are never publicly exposed
+
+Prepared by: 
+Bikal Ghimire, 
+Department of Mechanical Engineering
+Mississippi State University
+
